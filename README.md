@@ -1,7 +1,8 @@
-twitter.github.com
+Project Page
 ======
 
-The source code of http://twitter.github.com/
+The source code of http://sheimi.github.com/projects/
+forked from [twitter.github.com](http://twitter.github.com)
 
 LICENSE
 ------------

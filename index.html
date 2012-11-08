@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>Twitter &hearts; Open Source</title>
+    <title>Sheimi &hearts; Open Source</title>
     <link rel="stylesheet" type="text/css" href="assets/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/grid.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
@@ -13,9 +13,9 @@
 
       // Put custom repo URL's in this object, keyed by repo name.
       var repoUrls = {
-        "bootstrap": "http://twitter.github.com/bootstrap/",
-        "finagle": "http://twitter.github.com/finagle/",
-        "hogan.js": "http://twitter.github.com/hogan.js/"
+        "sheimi.github.com": "http://blog.sheimi.me",
+        "tiny-find": "http://blog.sheimi.me/tiny-find",
+        "tiny-lex": "http://blog.sheimi.me/tiny-lex"
       };
 
       function repoUrl(repo) {
@@ -24,8 +24,6 @@
 
       // Put custom repo descriptions in this object, keyed by repo name.
       var repoDescriptions = {
-        "bootstrap": "An HTML, CSS, and JS toolkit designed to kickstart development of webapps and sites",
-        "naggati2": "A protocol builder for Netty using Scala 2.8"
       };
 
       function repoDescription(repo) {
@@ -67,11 +65,18 @@
         repos = repos || [];
         page = page || 1;
 
-        var uri = "https://api.github.com/orgs/twitter/repos?callback=?"
+        var uri = "https://api.github.com/users/sheimi/repos?callback=?"
                 + "&per_page=100"
                 + "&page="+page;
 
         $.getJSON(uri, function (result) {
+          if (result.meta) {
+            if (result.meta.status == 403) {
+              $("#error-msg .msg p").text(result.meta.data);
+              $("#error-msg").fadeIn();
+              return;
+            }
+          }
           if (result.data && result.data.length > 0) {
             repos = repos.concat(result.data);
             addRepos(repos, page + 1);
@@ -123,14 +128,6 @@
       }
       addRepos();
 
-      $.getJSON("https://api.github.com/orgs/twitter/members?callback=?", function (result) {
-        var members = result.data;
-
-        $(function () {
-          $("#num-members").text(members.length);
-        });
-      });
-
       function randomItem(array) {
         return array[Math.floor(Math.random() * array.length)];
       }
@@ -173,24 +170,28 @@
           .addClass("larry size-" + sizeName)
           .attr("src", "assets/larry.png")
           .attr("width", size)
+          .attr("height", size);
+        var $imgwrapper = $("<div>")
+          .addClass("larry-wrapper size-" + sizeName)
+          .attr("width", size)
           .attr("height", size)
           .css({
             position: "absolute",
             opacity: randomOpacity(0.4),
             top: top,
             left: -size
-          });
-
-        $img.prependTo(flyzone());
+         });
+        $img.prependTo($imgwrapper);
+        $imgwrapper.prependTo(flyzone());
 
         var left = flyzone().width() + size;
 
-        $img.animate({left: left}, speed, function () {
-          $img.remove();
+        $imgwrapper.animate({left: left}, speed, function () {
+          $imgwrapper.remove();
           makeRandomLarry();
         });
 
-        return $img;
+        return $imgwrapper;
       }
 
       function makeRandomLarry() {
@@ -222,32 +223,66 @@
   </head>
   <body>
     <div id="wrapper" class="grid clearfix">
-      <div id="main" class="grid-1">
-        <div id="logo"><h1>Twitter Open Source</h1></div>
-        <h1>Twitter is built on open source software.</h1>
-        <p>Want to help? <a href="https://twitter.com/jobs">Join the Flock</a></p>
-        <p>Visit <a href="https://dev.twitter.com/">dev.twitter.com</a></p>
-        <p><a href="https://twitter.com/about/resources">Logos and other goodies</a></p>
+      <div id="main" class="grid header grid-1">
+        <div id="logo"><h1>Sheimi's Projects</h1></div>
+        <h1>Sheimi's Projects</h1>
+        <ol id="contact">
+          <li>
+            Twitter: <a href="http://twitter.com/sheimi_nju/"
+              target="_blank">@sheimi_nju</a>
+          </li>
+          <li>
+            Forked from <a href="http://github.com/twitter/twitter.github.com" target="_blank">twitter.github.com</a>
+          </li>
+          <li>
+            Modified by <a href="http://blog.sheimi.me" target="_blank">sheimi</a>
+          </li>
+        </ol>
       </div>
 
       <div class="grid grid-3">
         <div id="statistics" class="grid-1 alpha header">
           <h1>Statistics</h1>
           <p>
-            <a href="https://github.com/twitter/repositories"><span id="num-repos"><img src="assets/spinner.gif" /></span> public repos</a>
-            <br>
-            <a href="https://github.com/twitter"><span id="num-members"><img src="assets/spinner.gif" /></span> members</a>
+          <a href="https://github.com/sheimi/repositories">
+            <span id="num-repos">
+              <img src="assets/spinner.gif" alt="loading"/>
+            </span>
+            public repos
+          </a>
           </p>
-          <p class="email"><a href="mailto:opensource@twitter.com">opensource@twitter.com</a></p>
+          <p class="email">
+            <a href="mailto:sheimi.zhang@gmail.com">sheimi.zhang@gmail.com</a>
+          </p>
         </div>
 
         <div id="recently-updated" class="grid-2 omega header">
-          <h1>Recently updated <a href="https://github.com/twitter/repositories">View All on GitHub</a></h1>
+          <h1>Recently updated <a href="https://github.com/sheimi/repositories">View All on GitHub</a></h1>
           <ol id="recently-updated-repos"></ol>
         </div>
       </div>
-
+      <div class="grid grid-3">
+        <div id="error-msg" class="grid alpha grid-3 error">
+          <h1>Error</h1>
+          <div class="msg">
+            <p></p>
+          </div>
+        </div>
+      </div>
       <ol id="repos"></ol>
     </div>
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-29300274-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
   </body>
 </html>

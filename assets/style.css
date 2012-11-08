@@ -42,7 +42,7 @@ a:hover {
   text-align: center;
 }
 
-#main, div.header, li.repo {
+#main, div.header, li.repo , div.error{
   background: white;
   background: rgba(255, 255, 255, 0.7);
   -moz-box-shadow:    0px 0px 5px 1px rgba(0, 0, 0, 0.1);
@@ -67,7 +67,7 @@ a:hover {
 
 #logo {
   width: 190px;
-  height: 64px;
+  height: 130px;
   margin: 15px 0 0 15px;
   background: url("logo.png");
   text-indent: -99999px;
@@ -206,7 +206,11 @@ li.repo h3 {
   border-right-color: #6aad2d;
 }
 
-@keyframes small-swing { 0% { margin-top: 0px } 50% { margin-top: -10px } 100% { margin-top: 0px } }
+@keyframes x-spin { 0% { transform: rotate(0deg); }  50% { transform: rotate(180deg); } 100% { transform: rotate(360deg); } }
+@-moz-keyframes x-spin { 0% { -moz-transform: rotate(0deg); }  50% { -moz-transform: rotate(180deg); } 100% { -moz-transform: rotate(360deg); } }
+@-ms-keyframes x-spin { 0% { -ms-transform: rotate(0deg); }  50% { -ms-transform: rotate(180deg); } 100% { -ms-transform: rotate(360deg); } }
+@-webkit-keyframes x-spin { 0% { -webkit-transform: rotate(0deg); }  50% { -webkit-transform: rotate(180deg); } 100% { -webkit-transform: rotate(360deg); } }
+
 @-moz-keyframes small-swing { 0% { margin-top: 0px } 50% { margin-top: -10px } 100% { margin-top: 0px } }
 @-webkit-keyframes small-swing { 0% { margin-top: 0px } 50% { margin-top: -10px } 100% { margin-top: 0px } }
 @-ms-keyframes small-swing { 0% { margin-top: 0px } 50% { margin-top: -10px } 100% { margin-top: 0px } }
@@ -221,26 +225,54 @@ li.repo h3 {
 @-webkit-keyframes large-swing { 0% { margin-top: 0px } 50% { margin-top: -40px } 100% { margin-top: 0px } }
 @-ms-keyframes large-swing { 0% { margin-top: 0px } 50% { margin-top: -40px } 100% { margin-top: 0px } }
 
+/*
+#logo {
+  animation: x-spin 5s infinite linear;
+  -webkit-animation: x-spin 5s infinite linear;
+  -ms-animation: x-spin 5s infinite linear;
+}
+*/
+
 .larry.size-smaller, .larry.size-small {
   animation: small-swing 0.5s infinite ease-in-out;
   -moz-animation: small-swing 0.5s infinite ease-in-out;
   -webkit-animation: small-swing 0.5s infinite ease-in-out;
   -ms-animation: small-swing 0.5s infinite ease-in-out;
 }
-
 .larry.size-medium, .larry.size-large {
   animation: medium-swing 1.25s infinite ease-in-out;
   -moz-animation: medium-swing 1.25s infinite ease-in-out;
   -webkit-animation: medium-swing 1.25s infinite ease-in-out;
   -ms-animation: medium-swing 1.25s infinite ease-in-out;
 }
-
 .larry.size-medium, .larry.size-fat {
   animation: large-swing 1.5s infinite ease-in-out;
   -moz-animation: large-swing 1.5s infinite ease-in-out;
   -webkit-animation: large-swing 1.5s infinite ease-in-out;
   -ms-animation: large-swing 1.5s infinite ease-in-out;
 }
+
+.larry-wrapper.size-smaller {
+  animation: x-spin 2s infinite linear;
+  -moz-animation: x-spin 2s infinite linear;
+  -webkit-animation: x-spin 2s infinite linear;
+  -ms-animation: x-spin 2s infinite linear;
+}
+.larry-wrapper.size-small,
+.larry-wrapper.size-medium {
+  animation: x-spin 3.5s infinite linear;
+  -moz-animation: x-spin 3.5s infinite linear;
+  -webkit-animation: x-spin 3.5s infinite linear;
+  -ms-animation: x-spin 3.5s infinite linear;
+}
+.larry-wrapper.size-large,
+.larry-wrapper.size-fat {
+  animation: x-spin 5s infinite linear;
+  -moz-animation: x-spin 5s infinite linear;
+  -webkit-animation: x-spin 5s infinite linear;
+  -ms-animation: x-spin 5s infinite linear;
+}
+
 
 #flyzone {
   position: fixed;
@@ -249,4 +281,19 @@ li.repo h3 {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+/* error */
+#error-msg.error {
+  height: 250px;
+  background: rgba(255, 219, 219, 0.7);
+  display: none;
+}
+.error p, .error h1, .error div{
+  margin: 10px;
+}
+.error .msg  p{
+  font-size: 30px;
+  color: gray;
+  text-shadow: black 1px 1px 0;
 }
