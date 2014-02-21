@@ -20,6 +20,13 @@
         "SGit": "http://sgit.sheimi.me"
       };
 
+      var skipRepos = {
+        "CSE202": true,
+        "impress.js": true,
+        "StickyListHeaders": true,
+        "python-patterns": true,
+      };
+
       function repoUrl(repo) {
         return repoUrls[repo.name] || repo.html_url;
       }
@@ -111,6 +118,7 @@
               });
 
               $.each(repos, function (i, repo) {
+                if (skipRepos[repo.name] === true) return;
                 addRepo(repo);
               });
 
